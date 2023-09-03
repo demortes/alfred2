@@ -53,7 +53,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+[![Product Name Screen Shot][product-screenshot]](https://alfred.demortes.dev)
 
 Written by a bored programmer that wanted to give something back to Twitch... that wasn't just money. Supports streamers with API's that can be used in chatbots, activity monitoring for chat bots, or a simple interfact for its own chatbot cloud based chat bot.
 
