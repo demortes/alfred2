@@ -63,9 +63,7 @@ The project is meant to run at alfred.demortes.dev and shall be contributed to h
 
 ### Built With
 
-* [![Angular][Angular.io]][Angular-url]
-* [![Bootstrap][Bootstrap.com]][Bootstrap-url]
-* [![.NET][dotnet.microsoft.com]][Dotnet-url]
+[![Angular][Angular.io]][Angular-url] [![Bootstrap][Bootstrap.com]][Bootstrap-url] [![.NET][dotnet.microsoft.com]][Dotnet-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
