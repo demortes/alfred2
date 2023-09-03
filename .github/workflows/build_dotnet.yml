@@ -6,16 +6,10 @@ name: .NET
 on:
   push:
     branches: [ "main" ]
-    paths: 
-      - Source/**
-      - .github/**
     paths-ignore:
         - Source/frontend/**
   pull_request:
     branches: [ "main" ]
-    paths: 
-      - Source/**
-      - .github/**
     paths-ignore:
         - Source/frontend/**
 
