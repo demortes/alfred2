@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MsalService } from '@azure/msal-angular';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-root',
@@ -8,11 +8,10 @@ import { MsalService } from '@azure/msal-angular';
 })
 export class AppComponent implements OnInit {
   title = 'Alfred';
-  /**
-   *
-   */
-  constructor(private msalService: MsalService) { }
+
+  constructor(private authService: AuthService) { }
+
   ngOnInit(): void {
-    this.msalService.loginPopup();
+    this.authService.handleAuthentication();
   }
 }

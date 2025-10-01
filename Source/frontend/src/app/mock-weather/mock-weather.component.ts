@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { MsalService } from '@azure/msal-angular';
 import { environment } from 'src/environments/environment';
 
 @Component({
