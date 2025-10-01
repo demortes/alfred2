@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlfredBackend", "AlfredBackend\AlfredBackend.csproj", "{34096F5C-999C-4087-8CF4-673D567B48B9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlfredBackend.Tests", "AlfredBackend.Tests\AlfredBackend.Tests.csproj", "{2A4B6E8C-9D0A-4F8B-9E1C-7B6A0E9D1B2A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{34096F5C-999C-4087-8CF4-673D567B48B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{34096F5C-999C-4087-8CF4-673D567B48B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{34096F5C-999C-4087-8CF4-673D567B48B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A4B6E8C-9D0A-4F8B-9E1C-7B6A0E9D1B2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A4B6E8C-9D0A-4F8B-9E1C-7B6A0E9D1B2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A4B6E8C-9D0A-4F8B-9E1C-7B6A0E9D1B2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A4B6E8C-9D0A-4F8B-9E1C-7B6A0E9D1B2A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
