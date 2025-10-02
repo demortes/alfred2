@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MockWeatherComponent } from './mock-weather.component';
 
 describe('MockWeatherComponent', () => {
@@ -8,7 +8,7 @@ describe('MockWeatherComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [MockWeatherComponent]
+      imports: [MockWeatherComponent, HttpClientTestingModule]
     });
     fixture = TestBed.createComponent(MockWeatherComponent);
     component = fixture.componentInstance;
