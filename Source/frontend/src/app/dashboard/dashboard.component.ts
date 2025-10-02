@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { ChannelService } from '../channel.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.less'],
-  standalone: true
+  standalone: true,
+  imports: [CommonModule]
 })
 export class DashboardComponent {
   constructor(

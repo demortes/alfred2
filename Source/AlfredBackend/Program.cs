@@ -10,19 +10,26 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-        builder.Services.AddAuthentication(options =>
+        builder.Services.AddAuthentication("Cookies")
+            .AddCookie("Cookies", options =>
             {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = "Twitch";
+                options.Cookie.SameSite = SameSiteMode.Lax;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                options.Cookie.Name = "Alfred.Auth";
+                options.LoginPath = "/api/auth/login";
+                options.LogoutPath = "/api/auth/logout";
             })
             .AddTwitch(options =>
             {
+                options.SignInScheme = "Cookies";
                 options.ClientId = builder.Configuration["Authentication:Twitch:ClientId"] ?? 
                     throw new InvalidOperationException("Twitch ClientId is not configured");
                 options.ClientSecret = builder.Configuration["Authentication:Twitch:ClientSecret"] ?? 
                     throw new InvalidOperationException("Twitch ClientSecret is not configured");
                 options.CallbackPath = "/api/auth/callback";
                 options.SaveTokens = true;
+                options.CorrelationCookie.SameSite = SameSiteMode.Lax;
+                options.CorrelationCookie.SecurePolicy = CookieSecurePolicy.Always;
             })
             .AddJwtBearer(options =>
             {

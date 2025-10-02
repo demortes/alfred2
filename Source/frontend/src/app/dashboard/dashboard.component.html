@@ -1,13 +1,80 @@
-<div class="dashboard-container">
-  <header>
-    <h1>Dashboard</h1>
-    <button (click)="logout()">Logout</button>
-  </header>
-  <main>
-    <p>Welcome to your dashboard. Here you can manage your bot.</p>
-    <div class="channel-controls">
-      <button (click)="joinChannel()">Join Channel</button>
-      <button (click)="leaveChannel()">Leave Channel</button>
+<div class="container py-4">
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center">
+        <h1 class="mb-0">Dashboard</h1>
+        <button class="btn btn-outline-danger" (click)="logout()">
+          <i class="bi bi-box-arrow-right me-2"></i>Logout
+        </button>
+      </div>
     </div>
-  </main>
+  </div>
+
+  <div class="row g-4">
+    <!-- Status Card -->
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">
+            <i class="bi bi-info-circle me-2"></i>Bot Status
+          </h5>
+          <p class="card-text">Manage your bot's presence in your channel.</p>
+          <div class="d-grid gap-2">
+            <button class="btn btn-primary" (click)="joinChannel()">
+              <i class="bi bi-play-circle me-2"></i>Join Channel
+            </button>
+            <button class="btn btn-secondary" (click)="leaveChannel()">
+              <i class="bi bi-stop-circle me-2"></i>Leave Channel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions Card -->
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">
+            <i class="bi bi-lightning me-2"></i>Quick Actions
+          </h5>
+          <p class="card-text">Common bot management actions.</p>
+          <div class="d-grid gap-2">
+            <button class="btn btn-outline-primary">
+              <i class="bi bi-gear me-2"></i>Configure Commands
+            </button>
+            <button class="btn btn-outline-secondary">
+              <i class="bi bi-clock-history me-2"></i>View Logs
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Statistics Card -->
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">
+            <i class="bi bi-graph-up me-2"></i>Statistics
+          </h5>
+          <p class="card-text">Bot activity overview.</p>
+          <ul class="list-group list-group-flush bg-transparent">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              Commands Used
+              <span class="badge bg-primary rounded-pill">0</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              Messages Sent
+              <span class="badge bg-primary rounded-pill">0</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              Uptime
+              <span class="badge bg-primary rounded-pill">0h</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

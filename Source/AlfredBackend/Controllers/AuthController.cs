@@ -21,12 +21,16 @@ namespace AlfredBackend.Controllers
         [HttpGet("login")]
         public IActionResult Login()
         {
+            var frontendUrl = _configuration.GetSection("Cors:Origins").Get<string[]>()?[0] ?? 
+                throw new InvalidOperationException("Frontend URL is not configured");
+
             var properties = new AuthenticationProperties 
             { 
                 RedirectUri = "/api/auth/callback",
+                IsPersistent = true,
                 Items =
                 {
-                    { "scheme", "Twitch" }
+                    { "returnUrl", frontendUrl }
                 }
             };
             return Challenge(properties, "Twitch");
