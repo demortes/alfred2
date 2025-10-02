@@ -5,6 +5,16 @@ using Microsoft.IdentityModel.Tokens;
 
 public class Program
 {
+    /// <summary>
+    /// Builds, configures, and runs the ASP.NET Core web application using the provided command-line arguments.
+    /// </summary>
+    /// <param name="args">Command-line arguments passed to the application.</param>
+    /// <remarks>
+    /// Configures authentication (cookie scheme, Twitch external login, and JWT bearer validation), adds controllers and Swagger/OpenAPI services,
+    /// registers a CORS policy named "AllowSpecificOrigin" using origins from configuration, and sets up the HTTP request pipeline
+    /// (Swagger in development, CORS, HTTPS redirection, authentication, authorization, and controller endpoints) before running the app.
+    /// </remarks>
+    /// <exception cref="InvalidOperationException">Thrown when required configuration values for Twitch or JWT (ClientId, ClientSecret, Issuer, Audience, or Key) are missing.</exception>
     private static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);

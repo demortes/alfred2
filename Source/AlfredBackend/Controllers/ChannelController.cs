@@ -11,11 +11,18 @@ namespace AlfredBackend.Controllers
     {
         private readonly ILogger<ChannelController> _logger;
 
+        /// <summary>
+        /// Initializes a new instance of the ChannelController and assigns its logger.
+        /// </summary>
         public ChannelController(ILogger<ChannelController> logger)
         {
             _logger = logger;
         }
 
+        /// <summary>
+        /// Handles a request to join the caller's channel by resolving the channel from the caller's identity and returning a confirmation message.
+        /// </summary>
+        /// <returns>An OK (200) response containing a confirmation string that the caller's channel was joined.</returns>
         [HttpPost("join")]
         public IActionResult JoinChannel()
         {
@@ -26,6 +33,10 @@ namespace AlfredBackend.Controllers
             return Ok($"Successfully joined channel '{channelName}'.");
         }
 
+        /// <summary>
+        /// Processes a request for the current user to leave their channel and returns a confirmation message.
+        /// </summary>
+        /// <returns>An OkObjectResult containing a confirmation string that includes the current user's channel name.</returns>
         [HttpPost("leave")]
         public IActionResult LeaveChannel()
         {
