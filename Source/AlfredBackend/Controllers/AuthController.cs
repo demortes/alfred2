@@ -2,7 +2,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
@@ -22,42 +21,61 @@ namespace AlfredBackend.Controllers
         [HttpGet("login")]
         public IActionResult Login()
         {
-            // Redirect to Twitch for authentication.
-            // The callback path is where Twitch will redirect back to after authentication.
-            return Challenge(new AuthenticationProperties { RedirectUri = "/api/auth/callback" });
+            var properties = new AuthenticationProperties 
+            { 
+                RedirectUri = "/api/auth/callback",
+                Items =
+                {
+                    { "scheme", "Twitch" }
+                }
+            };
+            return Challenge(properties, "Twitch");
         }
 
         [HttpGet("callback")]
         public async Task<IActionResult> Callback()
         {
-            var authenticateResult = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            var authenticateResult = await HttpContext.AuthenticateAsync("Twitch");
 
             if (!authenticateResult.Succeeded)
             {
-                return BadRequest("Failed to authenticate with Twitch.");
+                return BadRequest("Authentication failed");
             }
 
-            // At this point, the user is authenticated with a cookie.
-            // We can now create a JWT to send to the frontend.
-            var claims = authenticateResult.Principal.Claims;
+            var twitchToken = await HttpContext.GetTokenAsync("Twitch", "access_token");
+            if (string.IsNullOrEmpty(twitchToken))
+            {
+                return BadRequest("Failed to obtain Twitch token");
+            }
+
+            // Generate our own JWT token
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]);
+            var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"] ?? 
+                throw new InvalidOperationException("JWT Key is not configured"));
+            
+            var claims = authenticateResult.Principal?.Claims.ToList() ?? new List<Claim>();
+            // Add the Twitch token as a claim if you need it later
+            claims.Add(new Claim("twitch_token", twitchToken));
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.AddDays(7),
-                Issuer = _configuration["Jwt:Issuer"],
-                Audience = _configuration["Jwt:Audience"],
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(
+                    new SymmetricSecurityKey(key), 
+                    SecurityAlgorithms.HmacSha256Signature),
+                Issuer = _configuration["Jwt:Issuer"] ?? 
+                    throw new InvalidOperationException("JWT Issuer is not configured"),
+                Audience = _configuration["Jwt:Audience"] ?? 
+                    throw new InvalidOperationException("JWT Audience is not configured")
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var jwt = tokenHandler.WriteToken(token);
 
-            // For simplicity, we'll redirect to the frontend with the token in the query string.
-            // In a real-world application, you might use a more secure method.
-            var frontendUrl = _configuration.GetSection("Cors:Origins").Get<string[]>()[0];
+            // Redirect to frontend with token
+            var frontendUrl = _configuration.GetSection("Cors:Origins").Get<string[]>()?[0] ?? 
+                throw new InvalidOperationException("Frontend URL is not configured");
             return Redirect($"{frontendUrl}?token={jwt}");
         }
     }

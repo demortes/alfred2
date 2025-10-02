@@ -8,11 +8,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 interface Environment {
-    auth: {
-        clientId: string;
-        authority: string;
-        redirectUri: string;
-    };
     appVersion: string;
     production: boolean;
     apiUrl: string;
@@ -36,9 +31,6 @@ const setEnv = async () => {
 
     // Validate required environment variables
     const requiredEnvVars = [
-        'AZURE_CLIENT_ID',
-        'AZURE_AUTHORITY',
-        'AZURE_REDIRECT_URI',
         'API_URL'
     ];
 
@@ -53,11 +45,6 @@ const setEnv = async () => {
 
     // Create environment config
     const environment: Environment = {
-        auth: {
-            clientId: process.env['AZURE_CLIENT_ID']!,
-            authority: process.env['AZURE_AUTHORITY']!,
-            redirectUri: process.env['AZURE_REDIRECT_URI']!
-        },
         appVersion,
         production: process.env['PRODUCTION'] === 'true',
         apiUrl: process.env['API_URL']!

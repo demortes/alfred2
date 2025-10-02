@@ -13,15 +13,16 @@ public class Program
         builder.Services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = "Twitch";
             })
-            .AddCookie()
             .AddTwitch(options =>
             {
-                options.ClientId = builder.Configuration["Authentication:Twitch:ClientId"];
-                options.ClientSecret = builder.Configuration["Authentication:Twitch:ClientSecret"];
+                options.ClientId = builder.Configuration["Authentication:Twitch:ClientId"] ?? 
+                    throw new InvalidOperationException("Twitch ClientId is not configured");
+                options.ClientSecret = builder.Configuration["Authentication:Twitch:ClientSecret"] ?? 
+                    throw new InvalidOperationException("Twitch ClientSecret is not configured");
                 options.CallbackPath = "/api/auth/callback";
+                options.SaveTokens = true;
             })
             .AddJwtBearer(options =>
             {
@@ -31,9 +32,13 @@ public class Program
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
-                    ValidAudience = builder.Configuration["Jwt:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                    ValidIssuer = builder.Configuration["Jwt:Issuer"] ?? 
+                        throw new InvalidOperationException("JWT Issuer is not configured"),
+                    ValidAudience = builder.Configuration["Jwt:Audience"] ?? 
+                        throw new InvalidOperationException("JWT Audience is not configured"),
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ?? 
+                            throw new InvalidOperationException("JWT Key is not configured")))
                 };
             });
 
