@@ -1,0 +1,144 @@
+// Import Bootstrap source SCSS
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+@import "../node_modules/bootstrap/scss/mixins";
+
+// Custom theme colors
+$red: #ff3e3e; // Vibrant red
+$dark-blue: #1a1b3d; // Dark blue
+$darker-blue: #13132b; // Darker blue for backgrounds
+$light-blue: #2a2c5e; // Lighter blue for hover states
+$text-color: #e1e1ff; // Light text with a slight blue tint
+
+// Theme color variables
+$primary: $red;
+$secondary: lighten($dark-blue, 20%);
+$dark: $darker-blue;
+$light: $text-color;
+
+// Body
+$body-bg: $darker-blue;
+$body-color: $text-color;
+
+// Components
+$border-color: $light-blue;
+
+// Cards
+$card-bg: $dark-blue;
+$card-border-color: $light-blue;
+$card-cap-bg: darken($dark-blue, 3%);
+
+// Inputs
+$input-bg: lighten($dark-blue, 5%);
+$input-color: $text-color;
+$input-border-color: $light-blue;
+$input-focus-border-color: $red;
+$input-focus-box-shadow: 0 0 0 0.2rem rgba($red, 0.25);
+
+// Tables
+$table-dark-bg: $dark-blue;
+$table-dark-border-color: $light-blue;
+$table-dark-color: $text-color;
+
+// Custom theme colors map
+$theme-colors: (
+  "primary": $primary,
+  "secondary": $secondary,
+  "dark": $dark,
+  "light": $light
+);
+
+// Import Bootstrap after customization
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+// Additional custom styles
+.navbar {
+  background-color: $darker-blue;
+  border-bottom: 1px solid $light-blue;
+}
+
+.card {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+
+  .card-header {
+    background-color: $dark-blue;
+    border-bottom: 1px solid $light-blue;
+  }
+
+  .list-group-item {
+    background-color: $dark-blue;
+    border-color: $light-blue;
+    color: $text-color;
+
+    &:hover {
+      background-color: lighten($dark-blue, 5%);
+    }
+  }
+}
+
+// Table overrides
+.table {
+  color: $text-color;
+
+  thead th {
+    background-color: darken($dark-blue, 3%);
+    border-color: $light-blue;
+  }
+}
+
+// Button overrides
+.btn-primary {
+  @include button-variant($red, darken($red, 10%));
+
+  &:hover {
+    box-shadow: 0 0 10px rgba($red, 0.3);
+  }
+}
+
+.btn-secondary {
+  @include button-variant($secondary, darken($secondary, 10%));
+
+  &:hover {
+    box-shadow: 0 0 10px rgba($secondary, 0.3);
+  }
+}
+
+// Form control overrides
+.form-control {
+  background-color: $dark-blue;
+  color: $text-color;
+  border-color: $light-blue;
+
+  &:focus {
+    background-color: lighten($dark-blue, 8%);
+    color: $text-color;
+    border-color: $primary;
+    box-shadow: 0 0 0 0.2rem rgba($red, 0.25);
+  }
+}
+
+// Badge overrides
+.badge.bg-primary {
+  background-color: $red !important;
+}
+
+// Spinner overrides
+.spinner-border {
+  color: $red;
+}
+
+// List group items in dark theme
+.list-group-item {
+  background-color: $dark-blue;
+  border-color: $light-blue;
+  color: $text-color;
+}
+
+// Links
+a {
+  color: lighten($red, 10%);
+
+  &:hover {
+    color: lighten($red, 20%);
+  }
+}
