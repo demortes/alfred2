@@ -67,12 +67,13 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "buildTarget": "alfred:build:development",
           "configurations": {
             "production": {
-              "browserTarget": "alfred:build:production"
+              "buildTarget": "alfred:build:production"
             },
             "development": {
-              "browserTarget": "alfred:build:development"
+              "buildTarget": "alfred:build:development"
             }
           },
           "defaultConfiguration": "development"

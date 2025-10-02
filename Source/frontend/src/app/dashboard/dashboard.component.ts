@@ -5,7 +5,8 @@ import { ChannelService } from '../channel.service';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.less']
+  styleUrls: ['./dashboard.component.less'],
+  standalone: true
 })
 export class DashboardComponent {
   constructor(
