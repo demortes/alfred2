@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { environment } from 'src/environments/environment';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -10,8 +10,10 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule]
 })
 export class LoginComponent {
+
+  constructor(private authService: AuthService) { }
+
   login() {
-    // Redirect to the backend's login endpoint, which will then redirect to Twitch.
-    window.location.href = `${environment.apiUrl}/api/auth/login`;
+    this.authService.login();
   }
 }
