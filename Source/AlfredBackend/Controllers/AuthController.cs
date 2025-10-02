@@ -1,13 +1,9 @@
-using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.Twitch;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace AlfredBackend.Controllers
@@ -28,7 +24,7 @@ namespace AlfredBackend.Controllers
         {
             // Redirect to Twitch for authentication.
             // The callback path is where Twitch will redirect back to after authentication.
-            return Challenge(new AuthenticationProperties { RedirectUri = "/api/auth/callback" }, TwitchDefaults.AuthenticationScheme);
+            return Challenge(new AuthenticationProperties { RedirectUri = "/api/auth/callback" });
         }
 
         [HttpGet("callback")]
