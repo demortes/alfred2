@@ -15,11 +15,19 @@ namespace AlfredBackend.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
 
+        /// <summary>
+        /// Creates a new instance of <see cref="WeatherForecastController"/> with the specified logger.
+        /// </summary>
+        /// <param name="logger">The logger used to record informational and error messages for this controller.</param>
         public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
             _logger = logger;
         }
 
+        /// <summary>
+        /// Retrieves five weather forecasts for the next five days.
+        /// </summary>
+        /// <returns>An IEnumerable&lt;WeatherForecast&gt; containing five forecasts (one per day) with randomized temperature and summary.</returns>
         [HttpGet(Name = "GetWeatherForecast")]
         public async Task<IEnumerable<WeatherForecast>> Get()
         {
