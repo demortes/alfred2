@@ -6,9 +6,18 @@ const setEnv = () => {
   // Load node modules
     const colors = require('colors');
     const appVersion = require('../../package.json').version;
-    require('dotenv').config({
+    const result = require('dotenv').config({
       path: 'src/environments/.env'
     });
+    if (result.error) {
+      if (result.error.code === 'ENOENT') {
+        // This is not a fatal error in CI environments
+        console.log(colors.yellow('Skipping .env file load. File not found. Using environment variables.'));
+      } else {
+        console.error(colors.red('Error loading .env file'), result.error);
+        process.exit(1);
+      }
+    }
   // `environment.ts` file structure
     const envConfigFile = `export const environment = {
     auth: {
