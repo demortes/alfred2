@@ -28,6 +28,16 @@ public class Program
                 options.Cookie.Name = "Alfred.Auth";
                 options.LoginPath = "/api/auth/login";
                 options.LogoutPath = "/api/auth/logout";
+                options.Events.OnSigningIn = context =>
+                {
+                    var tokens = context.Properties.GetTokens();
+                    var auth_token = tokens.FirstOrDefault(t => t.Name == "access_token");
+                    if (auth_token != null)
+                    {
+                        context.Properties.StoreTokens(tokens);
+                    }
+                    return Task.CompletedTask;
+                };
             })
             .AddTwitch(options =>
             {
@@ -36,7 +46,7 @@ public class Program
                     throw new InvalidOperationException("Twitch ClientId is not configured");
                 options.ClientSecret = builder.Configuration["Authentication:Twitch:ClientSecret"] ?? 
                     throw new InvalidOperationException("Twitch ClientSecret is not configured");
-                options.CallbackPath = "/api/auth/callback";
+                options.CallbackPath = "/signin-twitch";
                 options.SaveTokens = true;
                 options.CorrelationCookie.SameSite = SameSiteMode.Lax;
                 options.CorrelationCookie.SecurePolicy = CookieSecurePolicy.Always;

@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
@@ -23,7 +24,8 @@ namespace AlfredBackend.Controllers
         }
 
         /// <summary>
-        /// Initiates an external authentication challenge using the Twitch scheme and configures the callback path and frontend return URL.
+        /// Initiates an external authentication challenge using the Twitch scheme.
+        /// On success, the user is redirected to the frontend URL.
         /// </summary>
         /// <returns>An <see cref="IActionResult"/> that issues a Challenge for the "Twitch" authentication scheme, causing the client to be redirected to the external provider.</returns>
         [HttpGet("login")]
@@ -34,43 +36,32 @@ namespace AlfredBackend.Controllers
 
             var properties = new AuthenticationProperties 
             { 
-                RedirectUri = "/api/auth/callback",
+                RedirectUri = frontendUrl,
                 IsPersistent = true,
-                Items =
-                {
-                    { "returnUrl", frontendUrl }
-                }
             };
             return Challenge(properties, "Twitch");
         }
 
         /// <summary>
-        /// Handles the Twitch authentication callback, issues an application JWT that includes the Twitch access token and existing claims, and redirects the client to the configured frontend with the JWT appended as a `token` query parameter.
+        /// After successful external authentication, this endpoint generates and returns a JWT for the authenticated user.
         /// </summary>
-        /// <returns>A redirect to the configured frontend URL with the generated JWT as the `token` query parameter, or a <see cref="BadRequestResult"/> when authentication or retrieval of the Twitch access token fails.</returns>
-        /// <exception cref="InvalidOperationException">Thrown when required configuration values are missing: `Jwt:Key`, `Jwt:Issuer`, `Jwt:Audience`, or the first entry of `Cors:Origins` (frontend URL).</exception>
-        [HttpGet("callback")]
-        public async Task<IActionResult> Callback()
+        /// <returns>A JSON object containing the JWT, or a <see cref="BadRequestResult"/> if the Twitch access token is missing.</returns>
+        /// <exception cref="InvalidOperationException">Thrown when required JWT configuration values are missing.</exception>
+        [Authorize]
+        [HttpGet("token")]
+        public async Task<IActionResult> Token()
         {
-            var authenticateResult = await HttpContext.AuthenticateAsync("Twitch");
-
-            if (!authenticateResult.Succeeded)
-            {
-                return BadRequest("Authentication failed");
-            }
-
-            var twitchToken = await HttpContext.GetTokenAsync("Twitch", "access_token");
+            var twitchToken = await HttpContext.GetTokenAsync("access_token");
             if (string.IsNullOrEmpty(twitchToken))
             {
                 return BadRequest("Failed to obtain Twitch token");
             }
 
-            // Generate our own JWT token
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"] ?? 
                 throw new InvalidOperationException("JWT Key is not configured"));
             
-            var claims = authenticateResult.Principal?.Claims.ToList() ?? new List<Claim>();
+            var claims = User.Claims.ToList();
             // Add the Twitch token as a claim if you need it later
             claims.Add(new Claim("twitch_token", twitchToken));
 
@@ -90,10 +81,7 @@ namespace AlfredBackend.Controllers
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var jwt = tokenHandler.WriteToken(token);
 
-            // Redirect to frontend with token
-            var frontendUrl = _configuration.GetSection("Cors:Origins").Get<string[]>()?[0] ?? 
-                throw new InvalidOperationException("Frontend URL is not configured");
-            return Redirect($"{frontendUrl}?token={jwt}");
+            return Ok(new { token = jwt });
         }
     }
 }
