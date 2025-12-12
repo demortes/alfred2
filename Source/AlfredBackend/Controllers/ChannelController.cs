@@ -45,6 +45,10 @@ namespace AlfredBackend.Controllers
             }
         }
 
+        /// <summary>
+        /// Processes a request for the current user to leave their channel and returns a confirmation message.
+        /// </summary>
+        /// <returns>An OkObjectResult containing a confirmation string that includes the current user's channel name.</returns>
         [HttpPost("leave")]
         public async Task<IActionResult> LeaveChannel()
         {

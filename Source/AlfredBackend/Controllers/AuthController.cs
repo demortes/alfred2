@@ -13,11 +13,19 @@ namespace AlfredBackend.Controllers
     {
         private readonly IConfiguration _configuration;
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="AuthController"/> with the provided configuration source.
+        /// </summary>
+        /// <param name="configuration">Application configuration provider used to read JWT settings and CORS origins.</param>
         public AuthController(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
+        /// <summary>
+        /// Initiates an external authentication challenge using the Twitch scheme and configures the callback path and frontend return URL.
+        /// </summary>
+        /// <returns>An <see cref="IActionResult"/> that issues a Challenge for the "Twitch" authentication scheme, causing the client to be redirected to the external provider.</returns>
         [HttpGet("login")]
         public IActionResult Login()
         {
@@ -36,6 +44,11 @@ namespace AlfredBackend.Controllers
             return Challenge(properties, "Twitch");
         }
 
+        /// <summary>
+        /// Handles the Twitch authentication callback, issues an application JWT that includes the Twitch access token and existing claims, and redirects the client to the configured frontend with the JWT appended as a `token` query parameter.
+        /// </summary>
+        /// <returns>A redirect to the configured frontend URL with the generated JWT as the `token` query parameter, or a <see cref="BadRequestResult"/> when authentication or retrieval of the Twitch access token fails.</returns>
+        /// <exception cref="InvalidOperationException">Thrown when required configuration values are missing: `Jwt:Key`, `Jwt:Issuer`, `Jwt:Audience`, or the first entry of `Cors:Origins` (frontend URL).</exception>
         [HttpGet("callback")]
         public async Task<IActionResult> Callback()
         {
