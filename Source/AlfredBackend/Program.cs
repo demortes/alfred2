@@ -2,12 +2,27 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using AlfredBackend.Data;
+using AlfredBackend.Services;
+using Microsoft.EntityFrameworkCore;
 
 public class Program
 {
-    private static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+        builder.AddServiceDefaults();
+
+        // Configure PostgreSQL with Aspire
+        builder.AddNpgsqlDbContext<AlfredDbContext>("alfreddb");
+
+        // Configure MongoDB with Aspire
+        builder.AddMongoDBClient("alfredaudit");
+
+        // Register services
+        builder.Services.AddScoped<IBotSettingsService, BotSettingsService>();
+        builder.Services.AddScoped<IBotAccountService, BotAccountService>();
+        builder.Services.AddSingleton<IAuditLogService, MongoAuditLogService>();
 
         // Add services to the container.
         builder.Services.AddAuthentication("Cookies")
@@ -50,27 +65,33 @@ public class Program
             });
 
         builder.Services.AddControllers();
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
         builder.Services.AddCors(options =>
         {
-            options.AddPolicy("AllowSpecificOrigin",
-                builder2 =>
+            options.AddPolicy("AllowFrontend",
+                policy =>
                 {
-                    var origins = builder.Configuration.GetSection("Cors:Origins").Get<string[]>();
-                    if (origins != null)
-                    {
-                        builder2.WithOrigins(origins)
-                            .AllowAnyHeader()
-                            .AllowAnyMethod()
-                            .AllowCredentials();
-                    }
+                    var origins = builder.Configuration.GetSection("Cors:Origins").Get<string[]>() 
+                        ?? new[] { "http://localhost:4200" };
+                    policy.WithOrigins(origins)
+                          .AllowAnyMethod()
+                          .AllowAnyHeader()
+                          .AllowCredentials();
                 });
         });
 
         var app = builder.Build();
+
+        app.MapDefaultEndpoints();
+
+        // Run EF Core migrations automatically
+        using (var scope = app.Services.CreateScope())
+        {
+            var dbContext = scope.ServiceProvider.GetRequiredService<AlfredDbContext>();
+            await dbContext.Database.MigrateAsync(); // Use this instead for production
+        }
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
@@ -79,15 +100,15 @@ public class Program
             app.UseSwaggerUI();
         }
 
-        app.UseCors("AllowSpecificOrigin");
-
         app.UseHttpsRedirection();
+
+        app.UseCors("AllowFrontend");
 
         app.UseAuthentication();
         app.UseAuthorization();
 
         app.MapControllers();
 
-        app.Run();
+        await app.RunAsync();
     }
 }

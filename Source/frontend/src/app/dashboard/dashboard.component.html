@@ -1,80 +1,277 @@
-<div class="container py-4">
-  <div class="row mb-4">
-    <div class="col-12">
-      <div class="d-flex justify-content-between align-items-center">
-        <h1 class="mb-0">Dashboard</h1>
-        <button class="btn btn-outline-danger" (click)="logout()">
-          <i class="bi bi-box-arrow-right me-2"></i>Logout
+<div class="w-full max-w-[1200px] mx-auto p-4 md:p-8 flex flex-col gap-6">
+  <!-- Top Header -->
+  <div class="flex flex-col gap-2">
+    <div class="flex justify-between items-center">
+      <h2 class="text-[#111418] dark:text-white text-2xl font-bold leading-tight">Dashboard Overview</h2>
+      <div class="flex items-center gap-4">
+        <button
+          class="flex items-center gap-2 bg-[#283039] hover:bg-[#3b4754] text-white px-4 py-2 rounded-lg transition-colors text-sm font-medium">
+          <span class="material-symbols-outlined text-[18px]">refresh</span>
+          Refresh Data
         </button>
       </div>
     </div>
   </div>
 
-  <div class="row g-4">
-    <!-- Status Card -->
-    <div class="col-12 col-md-6 col-lg-4">
-      <div class="card h-100">
-        <div class="card-body">
-          <h5 class="card-title">
-            <i class="bi bi-info-circle me-2"></i>Bot Status
-          </h5>
-          <p class="card-text">Manage your bot's presence in your channel.</p>
-          <div class="d-grid gap-2">
-            <button class="btn btn-primary" (click)="joinChannel()">
-              <i class="bi bi-play-circle me-2"></i>Join Channel
-            </button>
-            <button class="btn btn-secondary" (click)="leaveChannel()">
-              <i class="bi bi-stop-circle me-2"></i>Leave Channel
-            </button>
-          </div>
-        </div>
-      </div>
+  <!-- Hero Status Card -->
+  <div class="w-full relative overflow-hidden rounded-xl bg-[#111418] min-h-[180px] flex flex-col justify-end p-6"
+    style="background-image: linear-gradient(135deg, rgba(43, 140, 238, 0.2) 0%, rgba(16, 25, 34, 0.9) 100%);">
+    <!-- Decorative pattern -->
+    <div class="absolute top-0 right-0 p-8 opacity-20">
+      <span class="material-symbols-outlined text-[120px] text-primary">smart_toy</span>
     </div>
-
-    <!-- Quick Actions Card -->
-    <div class="col-12 col-md-6 col-lg-4">
-      <div class="card h-100">
-        <div class="card-body">
-          <h5 class="card-title">
-            <i class="bi bi-lightning me-2"></i>Quick Actions
-          </h5>
-          <p class="card-text">Common bot management actions.</p>
-          <div class="d-grid gap-2">
-            <button class="btn btn-outline-primary">
-              <i class="bi bi-gear me-2"></i>Configure Commands
-            </button>
-            <button class="btn btn-outline-secondary">
-              <i class="bi bi-clock-history me-2"></i>View Logs
-            </button>
-          </div>
+    <div class="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div class="flex flex-col gap-2">
+        <div class="flex items-center gap-2">
+          @if (settings() && settings()!.connectionStatus === 'Connected') {
+          <div class="h-3 w-3 rounded-full bg-[#0bda5b] animate-pulse"></div>
+          <span class="text-[#0bda5b] font-bold tracking-wide uppercase text-sm">System Operational</span>
+          } @else {
+          <div class="h-3 w-3 rounded-full bg-gray-500"></div>
+          <span class="text-gray-400 font-bold tracking-wide uppercase text-sm">Disconnected</span>
+          }
         </div>
+        <h3 class="text-white text-3xl font-bold">
+          @if (settings() && settings()!.connectionStatus === 'Connected') {
+          Bot is Online
+          } @else {
+          Bot is Offline
+          }
+        </h3>
+        <p class="text-[#9dabb9] text-sm">
+          @if (settings()?.channelName) {
+          Monitoring {{ settings()!.channelName }}
+          } @else {
+          Not connected to any channel
+          }
+        </p>
       </div>
-    </div>
-
-    <!-- Statistics Card -->
-    <div class="col-12 col-md-6 col-lg-4">
-      <div class="card h-100">
-        <div class="card-body">
-          <h5 class="card-title">
-            <i class="bi bi-graph-up me-2"></i>Statistics
-          </h5>
-          <p class="card-text">Bot activity overview.</p>
-          <ul class="list-group list-group-flush bg-transparent">
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              Commands Used
-              <span class="badge bg-primary rounded-pill">0</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              Messages Sent
-              <span class="badge bg-primary rounded-pill">0</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              Uptime
-              <span class="badge bg-primary rounded-pill">0h</span>
-            </li>
-          </ul>
+      <div class="flex gap-4">
+        <div class="flex flex-col bg-white/5 backdrop-blur-sm rounded-lg p-3 min-w-[120px]">
+          <span class="text-[#9dabb9] text-xs uppercase font-semibold">Status</span>
+          <span class="text-white text-xl font-bold font-mono">{{ settings()?.connectionStatus || 'N/A' }}</span>
         </div>
       </div>
     </div>
   </div>
+
+  <!-- Metrics Grid -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <!-- Metric Card 1: Components -->
+    <div
+      class="bg-white dark:bg-[#1a222d] p-5 rounded-lg border border-[#e5e7eb] dark:border-[#283039] flex flex-col gap-3">
+      <div class="flex justify-between items-start">
+        <div class="p-2 bg-primary/10 rounded-md text-primary">
+          <span class="material-symbols-outlined">extension</span>
+        </div>
+      </div>
+      <div>
+        <p class="text-[#6b7280] dark:text-[#9dabb9] text-sm font-medium">Active Components</p>
+        <h4 class="text-[#111418] dark:text-white text-2xl font-bold">{{ activeComponentsCount() }}</h4>
+      </div>
+    </div>
+
+    <!-- Metric Card 2: Timeouts -->
+    <div
+      class="bg-white dark:bg-[#1a222d] p-5 rounded-lg border border-[#e5e7eb] dark:border-[#283039] flex flex-col gap-3">
+      <div class="flex justify-between items-start">
+        <div class="p-2 bg-purple-500/10 rounded-md text-purple-500">
+          <span class="material-symbols-outlined">schedule</span>
+        </div>
+      </div>
+      <div>
+        <p class="text-[#6b7280] dark:text-[#9dabb9] text-sm font-medium">Configured Timeouts</p>
+        <h4 class="text-[#111418] dark:text-white text-2xl font-bold">{{ settings()?.timeouts?.length || 0 }}</h4>
+      </div>
+    </div>
+
+    <!-- Metric Card 3: Components Total -->
+    <div
+      class="bg-white dark:bg-[#1a222d] p-5 rounded-lg border border-[#e5e7eb] dark:border-[#283039] flex flex-col gap-3">
+      <div class="flex justify-between items-start">
+        <div class="p-2 bg-orange-500/10 rounded-md text-orange-500">
+          <span class="material-symbols-outlined">widgets</span>
+        </div>
+      </div>
+      <div>
+        <p class="text-[#6b7280] dark:text-[#9dabb9] text-sm font-medium">Total Components</p>
+        <h4 class="text-[#111418] dark:text-white text-2xl font-bold">{{ settings()?.components?.length || 0 }}</h4>
+      </div>
+    </div>
+
+    <!-- Metric Card 4: Channel -->
+    <div
+      class="bg-white dark:bg-[#1a222d] p-5 rounded-lg border border-[#e5e7eb] dark:border-[#283039] flex flex-col gap-3">
+      <div class="flex justify-between items-start">
+        <div class="p-2 bg-pink-500/10 rounded-md text-pink-500">
+          <span class="material-symbols-outlined">chat</span>
+        </div>
+      </div>
+      <div>
+        <p class="text-[#6b7280] dark:text-[#9dabb9] text-sm font-medium">Channel</p>
+        <h4 class="text-[#111418] dark:text-white text-xl font-bold truncate">{{ settings()?.channelName || 'None' }}
+        </h4>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Grid -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Left Column: Bot Components -->
+    <div class="lg:col-span-2 flex flex-col gap-6">
+      <!-- Bot Components Card -->
+      <div class="bg-white dark:bg-[#1a222d] rounded-xl border border-[#e5e7eb] dark:border-[#283039] overflow-hidden">
+        <div class="p-6 border-b border-[#e5e7eb] dark:border-[#283039]">
+          <h3 class="text-[#111418] dark:text-white text-lg font-bold flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary">extension</span>
+            Bot Components
+          </h3>
+          <p class="text-[#6b7280] dark:text-[#9dabb9] text-sm mt-1">Enable or disable bot features</p>
+        </div>
+        <div class="p-4">
+          @if (loading()) {
+          <div class="flex justify-center items-center py-12">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+          </div>
+          } @else if (settings()?.components) {
+          <div class="space-y-2">
+            @for (component of settings()!.components; track component.name) {
+            <div
+              class="flex items-center justify-between p-4 rounded-lg bg-[#f9fafb] dark:bg-[#111418] border border-[#e5e7eb] dark:border-[#283039] hover:border-primary dark:hover:border-primary transition-all">
+              <div class="flex-grow-1">
+                <div class="font-bold text-[#111418] dark:text-white">{{ component.name }}</div>
+                <small class="text-[#6b7280] dark:text-[#9dabb9]">{{ component.description }}</small>
+              </div>
+              <div class="flex items-center">
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" class="sr-only peer" [checked]="component.enabled"
+                    (change)="toggleComponent(component)">
+                  <div
+                    class="w-11 h-6 bg-[#283039] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary">
+                  </div>
+                </label>
+              </div>
+            </div>
+            }
+          </div>
+          }
+        </div>
+      </div>
+
+      <!-- Timeout Settings Card -->
+      <div class="bg-white dark:bg-[#1a222d] rounded-xl border border-[#e5e7eb] dark:border-[#283039] overflow-hidden">
+        <div class="p-6 border-b border-[#e5e7eb] dark:border-[#283039]">
+          <h3 class="text-[#111418] dark:text-white text-lg font-bold flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary">schedule</span>
+            Timeout Settings
+          </h3>
+          <p class="text-[#6b7280] dark:text-[#9dabb9] text-sm mt-1">Configure bot timeouts (0-300 seconds)</p>
+        </div>
+        <div class="p-4">
+          @if (settings()?.timeouts) {
+          <div class="space-y-4">
+            @for (timeout of settings()!.timeouts; track timeout.name) {
+            <div class="p-4 rounded-lg bg-[#f9fafb] dark:bg-[#111418] border border-[#e5e7eb] dark:border-[#283039]">
+              <label [for]="'timeout-' + timeout.name"
+                class="block text-sm font-bold text-[#111418] dark:text-white mb-1">
+                {{ timeout.name }}
+              </label>
+              <small class="block text-[#6b7280] dark:text-[#9dabb9] mb-2">{{ timeout.description }}</small>
+              <div class="flex items-center gap-2">
+                <input type="number"
+                  class="flex-1 bg-white dark:bg-[#111418] border border-[#e5e7eb] dark:border-[#283039] text-[#111418] dark:text-white text-sm rounded-lg p-2.5 focus:ring-primary focus:border-primary"
+                  [id]="'timeout-' + timeout.name" [value]="timeout.valueSeconds" min="0" max="300"
+                  (blur)="updateTimeout(timeout, $event)">
+                <span class="text-sm text-[#6b7280] dark:text-[#9dabb9]">seconds</span>
+              </div>
+            </div>
+            }
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Quick Actions & Status -->
+    <div class="flex flex-col gap-6">
+      <!-- Quick Actions -->
+      <div class="bg-white dark:bg-[#1a222d] rounded-xl border border-[#e5e7eb] dark:border-[#283039] p-6">
+        <h3 class="text-[#111418] dark:text-white text-lg font-bold mb-4">Quick Actions</h3>
+        <div class="grid grid-cols-2 gap-3">
+          <button
+            class="flex flex-col items-center justify-center gap-2 p-4 rounded-lg bg-white dark:bg-[#111418] border border-[#e5e7eb] dark:border-[#283039] hover:border-primary dark:hover:border-primary transition-all"
+            (click)="joinChannel()" [disabled]="settings()?.connectionStatus === 'Connected'">
+            <span class="material-symbols-outlined text-primary text-[28px]">play_circle</span>
+            <span class="text-xs font-medium text-[#111418] dark:text-gray-300">Join Channel</span>
+          </button>
+          <button
+            class="flex flex-col items-center justify-center gap-2 p-4 rounded-lg bg-white dark:bg-[#111418] border border-[#e5e7eb] dark:border-[#283039] hover:border-primary dark:hover:border-primary transition-all"
+            (click)="leaveChannel()" [disabled]="settings()?.connectionStatus === 'Disconnected'">
+            <span class="material-symbols-outlined text-[#fa6238] text-[28px]">stop_circle</span>
+            <span class="text-xs font-medium text-[#111418] dark:text-gray-300">Leave Channel</span>
+          </button>
+          <button
+            class="flex flex-col items-center justify-center gap-2 p-4 rounded-lg bg-white dark:bg-[#111418] border border-[#e5e7eb] dark:border-[#283039] hover:border-primary dark:hover:border-primary transition-all"
+            (click)="loadSettings()">
+            <span class="material-symbols-outlined text-primary text-[28px]">refresh</span>
+            <span class="text-xs font-medium text-[#111418] dark:text-gray-300">Refresh</span>
+          </button>
+          <button
+            class="flex flex-col items-center justify-center gap-2 p-4 rounded-lg bg-white dark:bg-[#111418] border border-[#e5e7eb] dark:border-[#283039] hover:border-primary dark:hover:border-primary transition-all">
+            <span class="material-symbols-outlined text-[#111418] dark:text-white text-[28px]">settings</span>
+            <span class="text-xs font-medium text-[#111418] dark:text-gray-300">Settings</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Connection Status -->
+      <div class="bg-white dark:bg-[#1a222d] rounded-xl border border-[#e5e7eb] dark:border-[#283039] p-6">
+        <h3 class="text-[#111418] dark:text-white text-lg font-bold mb-4">Connection</h3>
+        <div class="flex flex-col gap-4">
+          <div class="flex items-center justify-between">
+            <span class="text-sm text-[#6b7280] dark:text-[#9dabb9]">Status</span>
+            @if (settings()?.connectionStatus === 'Connected') {
+            <span
+              class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#0bda5b]/10 text-[#0bda5b] border border-[#0bda5b]/30">
+              Connected
+            </span>
+            } @else {
+            <span
+              class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-500/10 text-gray-500 border border-gray-500/30">
+              Disconnected
+            </span>
+            }
+          </div>
+          @if (settings()?.channelName) {
+          <div class="flex items-center justify-between">
+            <span class="text-sm text-[#6b7280] dark:text-[#9dabb9]">Channel</span>
+            <span class="text-sm font-medium text-[#111418] dark:text-white">{{ settings()!.channelName }}</span>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Alerts -->
+  @if (error()) {
+  <div
+    class="bg-red-500/10 border border-red-500/30 text-red-500 px-4 py-3 rounded-lg relative flex items-center gap-2">
+    <span class="material-symbols-outlined">error</span>
+    <span>{{ error() }}</span>
+    <button class="absolute top-3 right-3 text-red-500 hover:text-red-400" (click)="error.set(null)">
+      <span class="material-symbols-outlined text-[20px]">close</span>
+    </button>
+  </div>
+  }
+  @if (successMessage()) {
+  <div
+    class="bg-[#0bda5b]/10 border border-[#0bda5b]/30 text-[#0bda5b] px-4 py-3 rounded-lg relative flex items-center gap-2">
+    <span class="material-symbols-outlined">check_circle</span>
+    <span>{{ successMessage() }}</span>
+    <button class="absolute top-3 right-3 text-[#0bda5b] hover:text-[#0bda5b]/80" (click)="successMessage.set(null)">
+      <span class="material-symbols-outlined text-[20px]">close</span>
+    </button>
+  </div>
+  }
 </div>

@@ -1,144 +1,62 @@
-// Import Bootstrap source SCSS
-@import "../node_modules/bootstrap/scss/functions";
-@import "../node_modules/bootstrap/scss/variables";
-@import "../node_modules/bootstrap/scss/mixins";
+/* Tailwind CSS directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-// Custom theme colors
-$red: #ff3e3e; // Vibrant red
-$dark-blue: #1a1b3d; // Dark blue
-$darker-blue: #13132b; // Darker blue for backgrounds
-$light-blue: #2a2c5e; // Lighter blue for hover states
-$text-color: #e1e1ff; // Light text with a slight blue tint
-
-// Theme color variables
-$primary: $red;
-$secondary: lighten($dark-blue, 20%);
-$dark: $darker-blue;
-$light: $text-color;
-
-// Body
-$body-bg: $darker-blue;
-$body-color: $text-color;
-
-// Components
-$border-color: $light-blue;
-
-// Cards
-$card-bg: $dark-blue;
-$card-border-color: $light-blue;
-$card-cap-bg: darken($dark-blue, 3%);
-
-// Inputs
-$input-bg: lighten($dark-blue, 5%);
-$input-color: $text-color;
-$input-border-color: $light-blue;
-$input-focus-border-color: $red;
-$input-focus-box-shadow: 0 0 0 0.2rem rgba($red, 0.25);
-
-// Tables
-$table-dark-bg: $dark-blue;
-$table-dark-border-color: $light-blue;
-$table-dark-color: $text-color;
-
-// Custom theme colors map
-$theme-colors: (
-  "primary": $primary,
-  "secondary": $secondary,
-  "dark": $dark,
-  "light": $light
-);
-
-// Import Bootstrap after customization
-@import "../node_modules/bootstrap/scss/bootstrap";
-
-// Additional custom styles
-.navbar {
-  background-color: $darker-blue;
-  border-bottom: 1px solid $light-blue;
-}
-
-.card {
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-
-  .card-header {
-    background-color: $dark-blue;
-    border-bottom: 1px solid $light-blue;
+/* Global dark theme styles */
+@layer base {
+  html {
+    @apply dark:bg-background-dark;
   }
 
-  .list-group-item {
-    background-color: $dark-blue;
-    border-color: $light-blue;
-    color: $text-color;
-
-    &:hover {
-      background-color: lighten($dark-blue, 5%);
-    }
+  body {
+    @apply bg-background-dark text-white font-display antialiased;
   }
 }
 
-// Table overrides
-.table {
-  color: $text-color;
+/* Custom scrollbar styles for dark theme */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
 
-  thead th {
-    background-color: darken($dark-blue, 3%);
-    border-color: $light-blue;
+::-webkit-scrollbar-track {
+  background: #101922;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2b3644;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3b4754;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Custom component utilities */
+@layer components {
+  .card-dark {
+    @apply bg-surface-dark border border-[#283039] rounded-xl shadow-sm;
   }
-}
 
-// Button overrides
-.btn-primary {
-  @include button-variant($red, darken($red, 10%));
-
-  &:hover {
-    box-shadow: 0 0 10px rgba($red, 0.3);
+  .btn-primary-custom {
+    @apply bg-primary hover:bg-blue-600 text-white font-bold rounded-lg transition-all shadow-lg shadow-primary/20;
   }
-}
 
-.btn-secondary {
-  @include button-variant($secondary, darken($secondary, 10%));
-
-  &:hover {
-    box-shadow: 0 0 10px rgba($secondary, 0.3);
+  .input-dark {
+    @apply bg-surface-dark border border-[#283039] text-white rounded-lg focus:ring-2 focus:ring-primary focus:border-primary;
   }
-}
 
-// Form control overrides
-.form-control {
-  background-color: $dark-blue;
-  color: $text-color;
-  border-color: $light-blue;
-
-  &:focus {
-    background-color: lighten($dark-blue, 8%);
-    color: $text-color;
-    border-color: $primary;
-    box-shadow: 0 0 0 0.2rem rgba($red, 0.25);
-  }
-}
-
-// Badge overrides
-.badge.bg-primary {
-  background-color: $red !important;
-}
-
-// Spinner overrides
-.spinner-border {
-  color: $red;
-}
-
-// List group items in dark theme
-.list-group-item {
-  background-color: $dark-blue;
-  border-color: $light-blue;
-  color: $text-color;
-}
-
-// Links
-a {
-  color: lighten($red, 10%);
-
-  &:hover {
-    color: lighten($red, 20%);
+  .badge-status {
+    @apply px-2.5 py-0.5 rounded-full text-xs font-medium;
   }
 }

@@ -1,0 +1,56 @@
+<div
+    class="hidden md:flex flex-col w-64 bg-[#111418] dark:bg-[#0f141a] border-r border-[#283039] p-4 justify-between shrink-0 h-screen">
+    <div class="flex flex-col gap-4">
+        <!-- Bot Branding -->
+        <div class="flex gap-3 items-center mb-4">
+            <div
+                class="bg-center bg-no-repeat bg-cover rounded-full h-10 w-10 bg-primary/20 flex items-center justify-center text-primary">
+                <span class="material-symbols-outlined text-[24px]">smart_toy</span>
+            </div>
+            <div class="flex flex-col">
+                <h1 class="text-white text-base font-medium leading-normal">Alfred Bot</h1>
+                <p class="text-[#9dabb9] text-xs font-normal leading-normal">v1.0.0</p>
+            </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <div class="flex flex-col gap-2">
+            <a class="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors"
+                [class.bg-primary/20]="isActive('/dashboard')" [class.text-primary]="isActive('/dashboard')"
+                [class.text-[#9dabb9]]="!isActive('/dashboard')" [class.hover:bg-[#283039]]="!isActive('/dashboard')"
+                [class.hover:text-white]="!isActive('/dashboard')" routerLink="/dashboard">
+                <span class="material-symbols-outlined">dashboard</span>
+                <p class="text-sm font-medium leading-normal">Dashboard</p>
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors"
+                [class.bg-primary/20]="isActive('/commands')" [class.text-primary]="isActive('/commands')"
+                [class.text-[#9dabb9]]="!isActive('/commands')" [class.hover:bg-[#283039]]="!isActive('/commands')"
+                [class.hover:text-white]="!isActive('/commands')" routerLink="/commands">
+                <span class="material-symbols-outlined">terminal</span>
+                <p class="text-sm font-medium leading-normal">Commands</p>
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors text-[#9dabb9] hover:bg-[#283039] hover:text-white"
+                href="#">
+                <span class="material-symbols-outlined">description</span>
+                <p class="text-sm font-medium leading-normal">Logs</p>
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors text-[#9dabb9] hover:bg-[#283039] hover:text-white"
+                href="#">
+                <span class="material-symbols-outlined">group</span>
+                <p class="text-sm font-medium leading-normal">Roles</p>
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors text-[#9dabb9] hover:bg-[#283039] hover:text-white"
+                href="#">
+                <span class="material-symbols-outlined">settings</span>
+                <p class="text-sm font-medium leading-normal">Settings</p>
+            </a>
+        </div>
+    </div>
+
+    <!-- Logout Button -->
+    <div class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#9dabb9] hover:bg-[#283039] hover:text-white transition-colors cursor-pointer"
+        (click)="onLogout()">
+        <span class="material-symbols-outlined">logout</span>
+        <p class="text-sm font-medium leading-normal">Logout</p>
+    </div>
+</div>

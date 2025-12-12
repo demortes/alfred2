@@ -1,3 +1,123 @@
-Source/frontend/.env
-Source/frontend/src/environments/environment.ts
+# Top-level .gitignore for .NET, ASP.NET Core, Angular, Node, Visual Studio, VS Code, JetBrains
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.vcxproj.user
+*.pdb
+
+# Visual Studio Code
+.vscode/
+.history/
+
+# Rider / JetBrains
+.idea/
+*.sln.iml
+
+# Build outputs
+**/bin/
+**/obj/
+**/out/
+TestResults/
+*.Build.log
+
+# Publish output
+publish/
+wwwroot/dist/
+
+# NuGet
+*.nupkg
+packages/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# dotnet local files
+*.runtimeconfig.dev.json
+*.dotnet_*
+
+# Entity Framework
+*.dbmdl
+
+# User secrets and local settings
+secrets.json
+appsettings.*.Local.json
+.local.settings.json
+
+# IIS Express
+/IISExpress/*
+
+# Test result files
+*.trx
+*.coverage
+coverage*.json
+coverage.opencover.xml
+
+# Coverage and reports
+coverage/
+.coverage
+.vscoverage
+report/
+
+# Node / Angular
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Angular build artifacts
+dist/
+out-tsc/
+tmp/
+.angular/cache/
+
+# Environment files
+.env
+.env.*
 Source/frontend/src/environments/.env
+Source/frontend/.env
+
+# TypeScript
+*.tsbuildinfo
+
+# Compiled JS and maps (optional: keep if committing built assets)
+*.js
+*.js.map
+
+# Generated files
+*.bak
+*.backup
+*.tmp
+*.temp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Resharper
+_ReSharper*/
+*.DotSettings.user
+
+# MonoDevelop
+*.pidb
+*.userprefs
+
+# Azure Functions local history
+.localhistory/
+
+# Logs
+logs/
+*.log
+
+# Certificates
+*.pfx
+*.cer
+
+# Package artifacts
+*.vsix

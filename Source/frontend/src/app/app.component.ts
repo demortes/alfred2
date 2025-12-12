@@ -1,20 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from './auth.service';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 @Component({
   selector: 'app-root',
+  imports: [RouterOutlet, SidebarComponent],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.less'],
-  standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive]
+  styleUrl: './app.component.less'
 })
-export class AppComponent implements OnInit {
-  title = 'Alfred';
-
-  constructor(private authService: AuthService) { }
-
-  ngOnInit(): void {
-    this.authService.handleAuthentication();
-  }
+export class AppComponent {
+  title = 'alfred';
 }
