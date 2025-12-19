@@ -159,12 +159,4 @@ Project Link: [https://github.com/demortes/alfred2](https://github.com/demortes/
 [issues-url]: https://github.com/demortes/alfred2/issues
 [license-shield]: https://img.shields.io/github/license/demortes/alfred2.svg?style=for-the-badge
 [license-url]: https://github.com/demortes/alfred2/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/
 [product-screenshot]: images/screenshot.jpg
-[Angular.io]: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white
-[Angular-url]: https://angular.io/
-[Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
-[Bootstrap-url]: https://getbootstrap.com
-[Dotnet-url]: https://dotnet.microsoft.com/en-us/
-[dotnet.microsoft.com]: https://img.shields.io/badge/.NET-5C2D91?style=for-the-badge&logo=.net&logoColor=white

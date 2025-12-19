@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { CommonModule, JsonPipe, DatePipe, NgIf, NgFor } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 interface WeatherForecast {
   date: string;
@@ -15,7 +15,7 @@ interface WeatherForecast {
   templateUrl: './mock-weather.component.html',
   styleUrls: ['./mock-weather.component.less'],
   standalone: true,
-  imports: [CommonModule, JsonPipe, DatePipe, NgIf, NgFor]
+  imports: [CommonModule, DatePipe]
 })
 export class MockWeatherComponent implements OnInit {
   public weather: WeatherForecast[] = [];
@@ -30,10 +30,10 @@ export class MockWeatherComponent implements OnInit {
 
   ngOnInit(): void {
     this.httpClient.get<WeatherForecast[]>(environment.apiUrl + "/WeatherForecast").subscribe({
-      next: (response) => {
+      next: (response: any) => {
         this.weather = response;
       },
-      error: (error) => {
+      error: (error: any) => {
         console.error('Error fetching weather data:', error);
       }
     });
