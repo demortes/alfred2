@@ -10,6 +10,10 @@ export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) { }
 
   canActivate(): boolean {
+    // First, try to handle any OAuth callback in the URL
+    // This ensures the token is captured before checking authentication
+    this.authService.handleAuthentication();
+
     if (this.authService.isAuthenticated()) {
       return true;
     } else {

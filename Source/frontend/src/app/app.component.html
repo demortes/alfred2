@@ -1,6 +1,8 @@
 <div class="flex h-screen w-full">
-  <!-- Sidebar Navigation -->
-  <app-sidebar></app-sidebar>
+  <!-- Sidebar Navigation (only shown when authenticated and not on login page) -->
+  @if (showSidebar) {
+    <app-sidebar></app-sidebar>
+  }
 
   <!-- Main Content -->
   <main class="flex-1 flex flex-col h-full overflow-y-auto bg-background-light dark:bg-background-dark">
