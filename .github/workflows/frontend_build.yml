@@ -21,6 +21,11 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    # Provide safe defaults for environment variables used by the frontend build
+    env:
+      PRODUCTION: 'false'
+      API_URL: 'https://localhost:7170'
+      TWITCH_CLIENT_ID: 'ci-twitch-client'
     defaults:
       run:
         working-directory: ./Source/frontend
