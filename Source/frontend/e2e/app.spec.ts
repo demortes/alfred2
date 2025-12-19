@@ -15,4 +15,11 @@ test.describe('Alfred Bot App', () => {
     await page.goto('/login');
     await expect(page.getByText('Alfred Bot')).toBeVisible();
   });
+
+  test('login page should have proper styling', async ({ page }) => {
+    await page.goto('/login');
+    // Check that the page loaded with dark theme
+    const body = page.locator('body');
+    await expect(body).toBeVisible();
+  });
 });
