@@ -29,18 +29,24 @@
                 <span class="material-symbols-outlined">terminal</span>
                 <p class="text-sm font-medium leading-normal">Commands</p>
             </a>
-            <a class="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors text-[#9dabb9] hover:bg-[#283039] hover:text-white"
-                href="#">
+            <a class="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors"
+                [class.bg-primary/20]="isActive('/logs')" [class.text-primary]="isActive('/logs')"
+                [class.text-[#9dabb9]]="!isActive('/logs')" [class.hover:bg-[#283039]]="!isActive('/logs')"
+                [class.hover:text-white]="!isActive('/logs')" routerLink="/logs">
                 <span class="material-symbols-outlined">description</span>
                 <p class="text-sm font-medium leading-normal">Logs</p>
             </a>
-            <a class="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors text-[#9dabb9] hover:bg-[#283039] hover:text-white"
-                href="#">
+            <a class="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors"
+                [class.bg-primary/20]="isActive('/roles')" [class.text-primary]="isActive('/roles')"
+                [class.text-[#9dabb9]]="!isActive('/roles')" [class.hover:bg-[#283039]]="!isActive('/roles')"
+                [class.hover:text-white]="!isActive('/roles')" routerLink="/roles">
                 <span class="material-symbols-outlined">group</span>
                 <p class="text-sm font-medium leading-normal">Roles</p>
             </a>
-            <a class="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors text-[#9dabb9] hover:bg-[#283039] hover:text-white"
-                href="#">
+            <a class="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors"
+                [class.bg-primary/20]="isActive('/settings')" [class.text-primary]="isActive('/settings')"
+                [class.text-[#9dabb9]]="!isActive('/settings')" [class.hover:bg-[#283039]]="!isActive('/settings')"
+                [class.hover:text-white]="!isActive('/settings')" routerLink="/settings">
                 <span class="material-symbols-outlined">settings</span>
                 <p class="text-sm font-medium leading-normal">Settings</p>
             </a>
