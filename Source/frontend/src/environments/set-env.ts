@@ -13,14 +13,18 @@ interface Environment {
 }
 
 const setEnv = () => {
-    // Load environment variables from .env file
-    const result = config({
-        path: join(__dirname, '.env')
-    });
-
+    // Load environment variables from .env file, falling back to .env.example
+    let result = config({ path: join(__dirname, '.env') });
     if (result.error) {
-        console.error('Error loading .env file:', result.error);
-        process.exit(1);
+        // If .env is missing, try .env.example
+        const tryExample = config({ path: join(__dirname, '.env.example') });
+        if (!tryExample.error) {
+            result = tryExample;
+            console.warn('Loaded environment from .env.example (fallback).');
+        } else {
+            // Neither .env nor .env.example found — continue but warn instead of exiting
+            console.warn('Warning: No .env or .env.example file found. Environment variables may be missing.');
+        }
     }
 
     // Get package version
@@ -36,8 +40,8 @@ const setEnv = () => {
 
     const missingVars = requiredEnvVars.filter(varName => !process.env[varName]);
     if (missingVars.length > 0) {
-        console.error('Missing required environment variables:', missingVars.join(', '));
-        process.exit(1);
+        console.warn('Missing required environment variables:', missingVars.join(', '));
+        console.warn('Continuing without required env vars; generated environment.ts may contain empty values.');
     }
 
     // Configure target path for environment file

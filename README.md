@@ -97,6 +97,13 @@ This is an example of how to list things you need to use the software and how to
    ```sh
    npm start
    ```
+   
+> Developer note: before running the frontend build steps, copy the example environment file and customize values:
+>
+> - `cp Source/frontend/.env.example Source/frontend/.env`
+> - or set environment variables for `PRODUCTION`, `API_URL`, and `TWITCH_CLIENT_ID`.
+>
+> The frontend also runs a `config` script (`npm run config`) which generates `src/environments/environment.ts` from environment variables. CI provides safe defaults but local developers should use the examples.
 5. Run your project within Visual Studio or Visual Studio Code.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -122,6 +129,13 @@ Contributions are what make the open source community such an amazing place to l
 
 If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
 Don't forget to give the project a star! Thanks again!
+
+For developer setup, testing, and contribution guidelines see CONTRIBUTING.md and TODO.md at the repository root.
+
+Helpful links:
+
+- [CONTRIBUTING.md](CONTRIBUTING.md)
+- [TODO.md](TODO.md)
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
