@@ -10,6 +10,16 @@
             },
             "options": {
                 "cwd": "./Source/frontend"
+            },
+            "problemMatcher": [],
+            "label": "npm: start",
+            "detail": "Start the Angular development server",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "runOptions": {
+                "runOn": "folderOpen"
             }
         }
     ]

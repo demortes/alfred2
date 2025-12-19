@@ -4,7 +4,12 @@
       "Bash(git push)",
       "Bash(npm outdated:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(gh pr close:*)",
+      "Bash(npm run build:*)",
+      "Bash(cat:*)",
+      "Bash(git stash:*)",
+      "Bash(git pull:*)"
     ]
   }
 }
