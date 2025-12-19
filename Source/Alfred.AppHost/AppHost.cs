@@ -21,7 +21,6 @@ var backend = builder.AddProject<Projects.AlfredBackend>("backend")
 // Add Angular Frontend
 var frontend = builder.AddNpmApp("frontend", "../frontend")
     .WithReference(backend)
-    .WithHttpEndpoint(port: 4200)
     .WithExternalHttpEndpoints()
     .PublishAsDockerFile();
 

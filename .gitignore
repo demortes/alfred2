@@ -128,3 +128,4 @@ logs/
 
 # Package artifacts
 *.vsix
+Source/frontend/test-results/
